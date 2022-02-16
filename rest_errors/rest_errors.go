@@ -14,7 +14,7 @@ type RestErr interface {
 	Causes() []interface{}
 }
 
-// RestErr is a standard struct to be used while handling errors in REST applications.
+// RestErr is a standard struct to be used while handling errors in REST applications
 type restErr struct {
 	ErrMessage string        `json:"message"`
 	ErrStatus  int           `json:"status"`
