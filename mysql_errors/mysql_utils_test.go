@@ -20,7 +20,7 @@ func TestParseErrorNoRecords(t *testing.T) {
 // TestParseErrorParsingData aims to test mysqlUtils.ParseError when there is an error while parsing database response
 func TestParseErrorParsingData(t *testing.T) {
 	err := errors.New("something went wrong")
-	expected := restErrors.NewInternalServerError("error parsing database response")
+	expected := restErrors.NewInternalServerError("error parsing database response", err)
 	assert.EqualValues(t, expected, ParseError(err))
 }
 
@@ -34,6 +34,6 @@ func TestParseErrorBadRequest(t *testing.T) {
 // TestParseErrorBadRequest aims to test mysqlUtils.ParseError when there is an error processing request on the database
 func TestParseErrorProcessingRequest(t *testing.T) {
 	mysqlErr := mysql.MySQLError{Number: 1060, Message: fmt.Sprintf("Error %d: %s", 1060, "Duplicate entry 'esequiel@gmail.com' for key 'email_UNIQUE'")}
-	expected := restErrors.NewInternalServerError("error processing request on the database")
+	expected := restErrors.NewInternalServerError("error processing request on the database", &mysqlErr)
 	assert.EqualValues(t, expected, ParseError(&mysqlErr))
 }

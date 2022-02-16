@@ -19,7 +19,7 @@ func ParseError(err error) restErrors.RestErr {
 			return restErrors.NewNotFoundError("no record matching given id")
 		}
 
-		return restErrors.NewInternalServerError("error parsing database response")
+		return restErrors.NewInternalServerError("error parsing database response", err)
 	}
 
 	switch sqlErr.Number {
@@ -27,5 +27,5 @@ func ParseError(err error) restErrors.RestErr {
 		return restErrors.NewBadRequestError("invalid data")
 	}
 
-	return restErrors.NewInternalServerError("error processing request on the database")
+	return restErrors.NewInternalServerError("error processing request on the database", err)
 }
