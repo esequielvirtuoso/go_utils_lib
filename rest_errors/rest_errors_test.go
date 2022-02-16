@@ -42,9 +42,20 @@ func TestNewInternalServerError(t *testing.T) {
 		ErrMessage: "internal server error",
 		ErrStatus:  http.StatusInternalServerError,
 		ErrError:   "internal_server_error",
+		ErrCauses:  []interface{}{"database error"},
 	}
 
-	assert.EqualValues(t, expected, NewInternalServerError("internal server error"))
+	actualErr := NewInternalServerError("internal server error", errors.New("database error"))
+	assert.EqualValues(t, expected, actualErr)
+	assert.NotNil(t, actualErr.Causes())
+	assert.EqualValues(t, 1, len(actualErr.Causes()))
+	assert.EqualValues(t, "database error", actualErr.Causes()[0])
+}
+
+// TestNewInternalServerErrorEmptyMessage aims to validate restErrors.NewInternalServerError return when no message parameter is passed.
+func TestNewInternalServerErrorEmptyMessage(t *testing.T) {
+	actualErr := NewInternalServerError("", errors.New("database error"))
+	assert.Empty(t, actualErr.Message())
 }
 
 // TestNewUnauthorized aims to validate restErrors.NewUnauthorized return.
