@@ -13,7 +13,7 @@ const (
 	envLogLevel         = "LOG_LEVEL"
 	envLogLevelDefault  = "info"
 	envLogOutput        = "LOG_OUTPUT"
-	envLogOutputDefault = "sdtout"
+	envLogOutputDefault = "stdout"
 )
 
 var (
